@@ -1,0 +1,76 @@
+//迪克特斯拉算法的C实现
+
+#include"stdio.h"
+
+#define NUM 3
+
+int main(){
+    int _short[NUM];
+	int least;
+	int i,j,k;
+	int array[NUM][NUM];
+	int start,end;
+    void way(int k,int start,int array[][NUM],int * _short);
+
+	for(i=0;i<NUM;i++)
+		_short[i]=100;
+
+    printf("初始化图\n");
+	for(i=0;i<NUM;i++)
+		for(j=0;j<NUM;j++)
+			scanf("%d",&array[i][j]);
+
+    printf("输入头和尾\n");
+    scanf("%d%d",&start,&end);
+	_short[start]=0;
+
+	while(start!=end){
+	    least=99;
+	    for(k=0;k<NUM;k++){
+			if(_short[k]!=100){
+				for(i=0;i<NUM;i++){
+				    if(_short[i]==100)
+					{least=least<_short[k]+array[k][i]?least:_short[k]+array[k][i];}
+				}
+			}
+		}
+	
+
+	for(k=0;k<NUM;k++){
+		if(_short[k]!=100){
+			for(i=0;i<NUM;i++){
+				if((array[k][i]+_short[k]==least)&&(_short[i]==100)){
+				    _short[i]=least;
+					if(i==end){
+						printf("两点最短权为最短权为：\n");
+					    printf("%d\n",_short[i]);
+						printf("其路径为(反序结果)：\n");
+						printf("%d %d ",i,k);
+						way(k,start,array, _short);
+					    break;
+					}
+				}
+			}
+		}
+	}
+	}
+	printf("0");
+	return 0;
+}
+
+void way(int k,int start,int array[][NUM],int * _short){
+	int a;
+    while(k!=start){
+		for(a=0;a<NUM;a++){
+			if(a!=k){
+			    if(array[k][a]+_short[a]==_short[k]){
+			        printf("%d ",a);
+				    k=a;
+				}
+			}
+		}
+	}
+	printf("\b\b%d",start);
+}
+
+
